@@ -91,7 +91,7 @@ public class BookingsController : ControllerBase
     }
 
     [HttpPut("{id:int}/status")]
-    [Authorize(Roles = Roles.SuperAdmin)]
+    [Authorize(Roles = Roles.SuperAdminOrHotelAdmin)]
     public async Task<ActionResult<ApiResponse<BookingResponseDto>>> UpdateStatus(
         int id, [FromQuery] BookingStatus status)
     {

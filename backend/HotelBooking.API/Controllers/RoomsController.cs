@@ -23,11 +23,27 @@ public class RoomsController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpGet("hotel/{hotelId:int}")]
+    [HttpGet("hotel/{hotelId:int}/categories")]
     public async Task<ActionResult<ApiResponse<IEnumerable<RoomCategoryResponseDto>>>> GetCategoriesByHotel(int hotelId)
     {
         var result = await _roomService.GetCategoriesByHotelAsync(hotelId);
         return Ok(ApiResponse<IEnumerable<RoomCategoryResponseDto>>.Ok(result));
+    }
+
+    [HttpGet("hotel/{hotelId:int}")]
+    [Authorize(Roles = Roles.SuperAdminOrHotelAdmin)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<RoomResponseDto>>>> GetByHotel(
+        int hotelId, [FromQuery] DateTime? checkIn, [FromQuery] DateTime? checkOut)
+    {
+        var result = await _roomService.GetRoomsByHotelAsync(hotelId, checkIn, checkOut);
+        return Ok(ApiResponse<IEnumerable<RoomResponseDto>>.Ok(result));
+    }
+
+    [HttpGet("categories/{id:int}")]
+    public async Task<ActionResult<ApiResponse<RoomCategoryResponseDto>>> GetCategoryById(int id)
+    {
+        var result = await _roomService.GetCategoryByIdAsync(id);
+        return Ok(ApiResponse<RoomCategoryResponseDto>.Ok(result));
     }
 
     [HttpGet("{id:int}/availability")]
