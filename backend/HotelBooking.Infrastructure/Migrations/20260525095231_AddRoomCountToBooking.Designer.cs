@@ -4,6 +4,7 @@ using HotelBooking.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260525095231_AddRoomCountToBooking")]
+    partial class AddRoomCountToBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,21 +87,6 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("HotelBooking.Core.Entities.BookingRoom", b =>
-                {
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookingId", "RoomId");
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("BookingRooms");
                 });
 
             modelBuilder.Entity("HotelBooking.Core.Entities.Hotel", b =>
@@ -657,25 +645,6 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotelBooking.Core.Entities.BookingRoom", b =>
-                {
-                    b.HasOne("HotelBooking.Core.Entities.Booking", "Booking")
-                        .WithMany("BookingRooms")
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelBooking.Core.Entities.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-
-                    b.Navigation("Room");
-                });
-
             modelBuilder.Entity("HotelBooking.Core.Entities.LoyaltyPoint", b =>
                 {
                     b.HasOne("HotelBooking.Core.Entities.Booking", "Booking")
@@ -792,8 +761,6 @@ namespace HotelBooking.Infrastructure.Migrations
 
             modelBuilder.Entity("HotelBooking.Core.Entities.Booking", b =>
                 {
-                    b.Navigation("BookingRooms");
-
                     b.Navigation("LoyaltyPoints");
 
                     b.Navigation("Payment");

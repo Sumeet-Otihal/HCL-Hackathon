@@ -1,0 +1,30 @@
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Services.deps.json
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Services.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Services.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Core.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Core.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.csproj.AssemblyReference.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.AssemblyInfoInputs.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.AssemblyInfo.cs
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.csproj.CoreCompileInputs.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBoo.9D15BAAF.Up2Date
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\refint\HotelBooking.Services.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Services\obj\Debug\net10.0\ref\HotelBooking.Services.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Services.deps.json
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Services.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Services.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Core.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\bin\Debug\net10.0\HotelBooking.Core.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.csproj.AssemblyReference.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.AssemblyInfoInputs.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.AssemblyInfo.cs
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.csproj.CoreCompileInputs.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBoo.9D15BAAF.Up2Date
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\refint\HotelBooking.Services.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\HotelBooking.Services.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Services\obj\Debug\net10.0\ref\HotelBooking.Services.dll

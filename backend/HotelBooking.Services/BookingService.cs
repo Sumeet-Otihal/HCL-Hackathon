@@ -50,15 +50,44 @@ public class BookingService : IBookingService
         if (dto.CheckOutDate <= dto.CheckInDate)
             throw new Core.Exceptions.ValidationException("Check-out date must be after check-in date.");
 
-        // Get room
-        var room = await _roomRepo.GetByIdAsync(dto.RoomId);
-        if (room == null)
-            throw new NotFoundException("Room", dto.RoomId);
+        if (dto.RoomCount < 1 || dto.RoomCount > 5)
+            throw new Core.Exceptions.ValidationException("You can book between 1 and 5 rooms.");
 
-        // Check availability
-        var isAvailable = await _roomRepo.IsAvailableAsync(dto.RoomId, dto.CheckInDate, dto.CheckOutDate);
-        if (!isAvailable)
-            throw new Core.Exceptions.ValidationException("Room is not available for the selected dates.");
+        Room? room = null;
+
+        if (dto.RoomId.HasValue && dto.RoomId.Value > 0)
+        {
+            room = await _roomRepo.GetByIdAsync(dto.RoomId.Value);
+            if (room == null)
+                throw new NotFoundException("Room", dto.RoomId.Value);
+
+            // Check availability for specific room
+            var isAvailable = await _roomRepo.IsAvailableAsync(dto.RoomId.Value, dto.CheckInDate, dto.CheckOutDate);
+            if (!isAvailable)
+                throw new Core.Exceptions.ValidationException("Selected room is not available for these dates.");
+            
+            if (dto.RoomCount > 1)
+                throw new Core.Exceptions.ValidationException("Multi-room booking must be done via category selection.");
+        }
+        else
+        {
+            // Find ALL available rooms in this category to see if we have enough
+            var roomsInCategory = await _roomRepo.GetByCategoryAsync(dto.CategoryId);
+            var availableRooms = new List<Room>();
+            
+            foreach (var r in roomsInCategory)
+            {
+                if (await _roomRepo.IsAvailableAsync(r.Id, dto.CheckInDate, dto.CheckOutDate))
+                {
+                    availableRooms.Add(r);
+                }
+            }
+
+            if (availableRooms.Count < dto.RoomCount)
+                throw new Core.Exceptions.ValidationException($"Only {availableRooms.Count} rooms available in this category for the selected dates.");
+            
+            room = availableRooms.First();
+        }
 
         // Get category for pricing
         var category = await _categoryRepo.GetByIdAsync(room.RoomCategoryId);
@@ -67,7 +96,7 @@ public class BookingService : IBookingService
 
         // Calculate amounts
         var totalNights = (dto.CheckOutDate - dto.CheckInDate).Days;
-        var totalAmount = totalNights * category.PricePerNight;
+        var totalAmount = totalNights * category.PricePerNight * dto.RoomCount;
         var discountAmount = 0m;
 
         // Apply promo code if provided
@@ -84,7 +113,8 @@ public class BookingService : IBookingService
         var booking = new Booking
         {
             UserId = userId,
-            RoomId = dto.RoomId,
+            RoomId = room.Id,
+            RoomCount = dto.RoomCount,
             CheckInDate = dto.CheckInDate,
             CheckOutDate = dto.CheckOutDate,
             TotalNights = totalNights,
@@ -96,6 +126,31 @@ public class BookingService : IBookingService
             ReservationNumber = reservationNumber,
             CreatedAt = DateTime.UtcNow
         };
+
+        // Associate all rooms
+        if (dto.RoomId.HasValue && dto.RoomId.Value > 0)
+        {
+            booking.BookingRooms.Add(new BookingRoom { RoomId = room.Id });
+        }
+        else
+        {
+            // We already found availableRooms above, let's use them
+            var roomsInCategory = await _roomRepo.GetByCategoryAsync(dto.CategoryId);
+            var availableRooms = new List<Room>();
+            foreach (var r in roomsInCategory)
+            {
+                if (await _roomRepo.IsAvailableAsync(r.Id, dto.CheckInDate, dto.CheckOutDate))
+                {
+                    availableRooms.Add(r);
+                    if (availableRooms.Count == dto.RoomCount) break;
+                }
+            }
+            
+            foreach (var r in availableRooms)
+            {
+                booking.BookingRooms.Add(new BookingRoom { RoomId = r.Id });
+            }
+        }
 
         await _bookingRepo.AddAsync(booking);
 
@@ -213,6 +268,8 @@ public class BookingService : IBookingService
         var newDto = new CreateBookingDto
         {
             RoomId = dto.NewRoomId ?? booking.RoomId,
+            CategoryId = booking.Room.RoomCategoryId,
+            HotelId = booking.Room.RoomCategory.HotelId,
             CheckInDate = dto.NewCheckInDate,
             CheckOutDate = dto.NewCheckOutDate
         };

@@ -21,7 +21,7 @@ public class RoomRepository : GenericRepository<Room>, IRoomRepository
     public async Task<bool> IsAvailableAsync(int roomId, DateTime checkIn, DateTime checkOut)
     {
         var hasOverlap = await _context.Bookings.AnyAsync(b =>
-            b.RoomId == roomId &&
+            (b.RoomId == roomId || b.BookingRooms.Any(br => br.RoomId == roomId)) &&
             b.Status != BookingStatus.Cancelled &&
             b.CheckInDate < checkOut &&
             b.CheckOutDate > checkIn
@@ -40,6 +40,11 @@ public class RoomRepository : GenericRepository<Room>, IRoomRepository
                 b.Status != BookingStatus.Cancelled &&
                 b.CheckInDate < checkOut &&
                 b.CheckOutDate > checkIn
+            ) && !_context.BookingRooms.Any(br =>
+                br.RoomId == r.Id &&
+                br.Booking.Status != BookingStatus.Cancelled &&
+                br.Booking.CheckInDate < checkOut &&
+                br.Booking.CheckOutDate > checkIn
             ))
             .ToListAsync();
     }

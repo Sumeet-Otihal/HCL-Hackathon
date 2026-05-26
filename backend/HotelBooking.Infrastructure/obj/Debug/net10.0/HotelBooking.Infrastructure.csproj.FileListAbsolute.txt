@@ -1,0 +1,34 @@
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.deps.json
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.runtimeconfig.json
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Core.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Core.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.AssemblyInfo.cs
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBoo.8CD6D998.Up2Date
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\refint\HotelBooking.Infrastructure.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.genruntimeconfig.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Infrastructure\obj\Debug\net10.0\ref\HotelBooking.Infrastructure.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.deps.json
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.runtimeconfig.json
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Infrastructure.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Core.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\bin\Debug\net10.0\HotelBooking.Core.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.csproj.AssemblyReference.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.AssemblyInfoInputs.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.AssemblyInfo.cs
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.csproj.CoreCompileInputs.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBoo.8CD6D998.Up2Date
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\refint\HotelBooking.Infrastructure.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\HotelBooking.Infrastructure.genruntimeconfig.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Infrastructure\obj\Debug\net10.0\ref\HotelBooking.Infrastructure.dll

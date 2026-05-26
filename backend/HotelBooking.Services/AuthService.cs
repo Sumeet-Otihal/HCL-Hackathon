@@ -29,6 +29,9 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponseDto> RegisterAsync(RegisterRequestDto request)
     {
+        if (request == null)
+            throw new Core.Exceptions.ValidationException("Registration data is missing.");
+
         if (request.Password != request.ConfirmPassword)
             throw new Core.Exceptions.ValidationException("Passwords do not match.");
 
@@ -117,7 +120,8 @@ public class AuthService : IAuthService
             FirstName = user.FirstName,
             LastName = user.LastName,
             Role = roles.FirstOrDefault() ?? Roles.User,
-            LoyaltyPoints = user.LoyaltyPoints
+            LoyaltyPoints = user.LoyaltyPoints,
+            HotelId = user.HotelId
         };
     }
 
@@ -151,7 +155,8 @@ public class AuthService : IAuthService
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Role = role,
-                LoyaltyPoints = user.LoyaltyPoints
+                LoyaltyPoints = user.LoyaltyPoints,
+                HotelId = user.HotelId
             }
         };
     }

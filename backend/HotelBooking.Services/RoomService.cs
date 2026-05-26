@@ -38,6 +38,15 @@ public class RoomService : IRoomService
         return _mapper.Map<IEnumerable<RoomCategoryResponseDto>>(hotel.RoomCategories);
     }
 
+    public async Task<RoomCategoryResponseDto> GetCategoryByIdAsync(int id)
+    {
+        var category = await _categoryRepo.GetByIdAsync(id);
+        if (category == null)
+            throw new NotFoundException("RoomCategory", id);
+
+        return _mapper.Map<RoomCategoryResponseDto>(category);
+    }
+
     public async Task<IEnumerable<RoomResponseDto>> GetRoomsByCategoryAsync(int categoryId)
     {
         var rooms = await _roomRepo.GetByCategoryAsync(categoryId);
@@ -51,6 +60,42 @@ public class RoomService : IRoomService
             PricePerNight = r.RoomCategory.PricePerNight,
             IsAvailable = true // Would need date range for accurate check
         });
+    }
+
+    public async Task<IEnumerable<RoomResponseDto>> GetRoomsByHotelAsync(int hotelId, DateTime? checkIn = null, DateTime? checkOut = null)
+    {
+        var hotel = await _hotelRepo.GetWithRoomCategoriesAsync(hotelId);
+        if (hotel == null)
+            throw new NotFoundException("Hotel", hotelId);
+
+        var rooms = new List<Room>();
+        foreach (var category in hotel.RoomCategories)
+        {
+            var categoryRooms = await _roomRepo.GetByCategoryAsync(category.Id);
+            rooms.AddRange(categoryRooms);
+        }
+
+        // Use provided dates or default to today/tomorrow
+        var start = checkIn?.Date ?? DateTime.UtcNow.Date;
+        var end = checkOut?.Date ?? start.AddDays(1);
+
+        var results = new List<RoomResponseDto>();
+        foreach (var r in rooms)
+        {
+            var isAvailable = await _roomRepo.IsAvailableAsync(r.Id, start, end);
+            results.Add(new RoomResponseDto
+            {
+                Id = r.Id,
+                RoomCategoryId = r.RoomCategoryId,
+                CategoryName = r.RoomCategory.Name.ToString(),
+                RoomNumber = r.RoomNumber,
+                FloorNumber = r.FloorNumber,
+                PricePerNight = r.RoomCategory.PricePerNight,
+                IsAvailable = isAvailable
+            });
+        }
+
+        return results;
     }
 
     public async Task<bool> CheckAvailabilityAsync(int roomId, DateTime checkIn, DateTime checkOut)

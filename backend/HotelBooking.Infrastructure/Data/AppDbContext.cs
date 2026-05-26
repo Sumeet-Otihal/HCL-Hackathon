@@ -12,6 +12,7 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<RoomCategory> RoomCategories { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Booking> Bookings { get; set; }
+    public DbSet<BookingRoom> BookingRooms { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Promotion> Promotions { get; set; }
     public DbSet<LoyaltyPoint> LoyaltyPoints { get; set; }
