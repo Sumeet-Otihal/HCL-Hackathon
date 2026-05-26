@@ -16,4 +16,5 @@ public class UserInfoDto
     public string LastName { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty;
     public int LoyaltyPoints { get; set; }
+    public int? HotelId { get; set; }
 }

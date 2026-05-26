@@ -7,6 +7,7 @@ public class Booking
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;
     public int RoomId { get; set; }
+    public int RoomCount { get; set; } = 1;
     public DateTime CheckInDate { get; set; }
     public DateTime CheckOutDate { get; set; }
     public int TotalNights { get; set; }
@@ -20,6 +21,7 @@ public class Booking
 
     public User User { get; set; } = null!;
     public Room Room { get; set; } = null!;
+    public ICollection<BookingRoom> BookingRooms { get; set; } = new List<BookingRoom>();
     public Payment? Payment { get; set; }
     public ICollection<LoyaltyPoint> LoyaltyPoints { get; set; } = new List<LoyaltyPoint>();
 }

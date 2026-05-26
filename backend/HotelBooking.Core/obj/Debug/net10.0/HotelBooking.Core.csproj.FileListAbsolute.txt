@@ -1,0 +1,24 @@
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\bin\Debug\net10.0\HotelBooking.Core.deps.json
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\bin\Debug\net10.0\HotelBooking.Core.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\bin\Debug\net10.0\HotelBooking.Core.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.csproj.AssemblyReference.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.AssemblyInfoInputs.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.AssemblyInfo.cs
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.csproj.CoreCompileInputs.cache
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\refint\HotelBooking.Core.dll
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.pdb
+C:\Users\kunal\IdeaProjects\Hcl Project\HotelBooking.Core\obj\Debug\net10.0\ref\HotelBooking.Core.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\bin\Debug\net10.0\HotelBooking.Core.deps.json
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\bin\Debug\net10.0\HotelBooking.Core.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\bin\Debug\net10.0\HotelBooking.Core.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.csproj.AssemblyReference.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.AssemblyInfoInputs.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.AssemblyInfo.cs
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.csproj.CoreCompileInputs.cache
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\refint\HotelBooking.Core.dll
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\HotelBooking.Core.pdb
+D:\College\HCL\Final\Hotel\backend\HotelBooking.Core\obj\Debug\net10.0\ref\HotelBooking.Core.dll
