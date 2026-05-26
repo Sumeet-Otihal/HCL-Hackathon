@@ -44,12 +44,20 @@ import { forkJoin } from 'rxjs';
                   ></app-input>
                 </div>
                 
-                <app-input 
-                  label="Number of Guests" 
-                  type="number" 
-                  formControlName="guests"
-                  [error]="(bookingForm.get('guests')?.touched && bookingForm.get('guests')?.invalid) ? 'Invalid number of guests' : null"
-                ></app-input>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <app-input 
+                    label="Number of Guests" 
+                    type="number" 
+                    formControlName="guests"
+                    [error]="(bookingForm.get('guests')?.touched && bookingForm.get('guests')?.invalid) ? 'Invalid number of guests' : null"
+                  ></app-input>
+                  <div class="w-full">
+                    <label class="block text-sm font-medium text-navy-700 mb-1">Number of Rooms</label>
+                    <select formControlName="roomCount" class="flex h-10 w-full rounded-md border border-navy-300 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2">
+                      <option *ngFor="let i of [1,2,3,4,5]" [value]="i">{{ i }} Room{{ i > 1 ? 's' : '' }}</option>
+                    </select>
+                  </div>
+                </div>
 
                 <div class="flex gap-4 items-end">
                   <div class="flex-1">
@@ -87,7 +95,7 @@ import { forkJoin } from 'rxjs';
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
               <h3 class="text-lg font-bold mb-4">Reservation Summary</h3>
               <div class="flex space-x-4 mb-6">
-                <img [src]="category.imageUrl" class="w-20 h-20 rounded-lg object-cover" />
+                <img [src]="category.imageUrls?.[0]" class="w-20 h-20 rounded-lg object-cover" />
                 <div>
                   <p class="font-bold text-navy-900">{{ hotel.name }}</p>
                   <p class="text-sm text-navy-500">{{ category.name }}</p>
@@ -95,8 +103,9 @@ import { forkJoin } from 'rxjs';
               </div>
               
               <app-price-breakdown 
-                [basePrice]="category.basePrice" 
+                [pricePerNight]="category.pricePerNight" 
                 [nights]="nights" 
+                [roomCount]="bookingForm.get('roomCount')?.value || 1"
                 [discount]="discount" 
                 [promoCode]="appliedPromo"
               ></app-price-breakdown>
@@ -144,6 +153,7 @@ export class BookingPageComponent implements OnInit {
       checkInDate: [format(checkIn, 'yyyy-MM-dd'), Validators.required],
       checkOutDate: [format(checkOut, 'yyyy-MM-dd'), Validators.required],
       guests: [1, [Validators.required, Validators.min(1)]],
+      roomCount: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
       promoCode: ['']
     }, { validators: this.dateRangeValidator });
   }
@@ -175,7 +185,7 @@ export class BookingPageComponent implements OnInit {
       next: (res) => {
         this.hotel = res.hotel.data;
         this.category = res.category.data;
-        this.bookingForm.get('guests')?.setValidators([Validators.required, Validators.min(1), Validators.max(this.category!.maxOccupancy)]);
+        this.bookingForm.get('guests')?.setValidators([Validators.required, Validators.min(1), Validators.max(this.category!.maxOccupancy * 5)]);
         this.bookingForm.get('guests')?.updateValueAndValidity();
         this.isLoading = false;
       },
@@ -190,11 +200,13 @@ export class BookingPageComponent implements OnInit {
     if (!code) return;
 
     this.isApplyingPromo = true;
-    this.http.post<ApiResponse<{ discountPercentage: number }>>(`${environment.apiUrl}/promotions/validate`, { code })
+    const roomCount = this.bookingForm.get('roomCount')?.value || 1;
+    const totalAmount = this.category!.pricePerNight * this.nights * roomCount;
+    this.http.post<ApiResponse<number>>(`${environment.apiUrl}/promotions/validate?code=${code}&totalAmount=${totalAmount}`, {})
       .subscribe({
         next: (res) => {
-          if (res.success && this.category) {
-            this.discount = (this.category.basePrice * this.nights) * (res.data.discountPercentage / 100);
+          if (res.success) {
+            this.discount = res.data;
             this.appliedPromo = code;
           }
           this.isApplyingPromo = false;
@@ -210,16 +222,15 @@ export class BookingPageComponent implements OnInit {
     
     this.isSubmitting = true;
     const data = this.bookingForm.value;
-    const totalPrice = (this.category.basePrice * this.nights) - this.discount;
 
     this.http.post<ApiResponse<{ id: string }>>(`${environment.apiUrl}/bookings`, {
-      hotelId: this.hotelId,
-      categoryId: this.categoryId,
+      hotelId: Number(this.hotelId),
+      categoryId: Number(this.categoryId),
+      roomCount: Number(data.roomCount),
       checkInDate: data.checkInDate,
       checkOutDate: data.checkOutDate,
       guests: data.guests,
-      promoCode: data.promoCode,
-      totalPrice
+      promoCode: data.promoCode
     }).subscribe({
       next: (res) => {
         if (res.success) {

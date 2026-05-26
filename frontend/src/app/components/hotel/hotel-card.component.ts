@@ -14,7 +14,7 @@ import { AmenityIconComponent } from './amenity-icon.component';
     <div class="bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 hover:shadow-lg transition-shadow">
       <div class="relative h-48 sm:h-64">
         <img 
-          [src]="hotel.imageUrl || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80'" 
+          [src]="hotel.imageUrls?.[0] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80'" 
           [alt]="hotel.name"
           class="w-full h-full object-cover"
         />
@@ -36,7 +36,7 @@ import { AmenityIconComponent } from './amenity-icon.component';
 
         <div class="flex flex-wrap gap-2 mb-6">
           <app-badge *ngFor="let amenity of hotel.amenities | slice:0:3" variant="default" class="flex items-center">
-            <app-amenity-icon [amenity]="amenity" class="h-3 w-3 mr-1"></app-amenity-icon>
+            <app-amenity-icon [amenity]="$any(amenity)" class="h-3 w-3 mr-1"></app-amenity-icon>
             {{ amenity }}
           </app-badge>
           <span *ngIf="hotel.amenities.length > 3" class="text-xs text-navy-400">
@@ -47,7 +47,7 @@ import { AmenityIconComponent } from './amenity-icon.component';
         <div class="flex items-center justify-between border-t border-slate-100 pt-4">
           <div>
             <p class="text-xs text-navy-500">Starting from</p>
-            <p class="text-lg font-bold text-gold-600">₹{{ priceFrom || '2,499' | number }}</p>
+            <p class="text-lg font-bold text-gold-600">₹{{ getMinPrice() | number }}</p>
           </div>
           <a [routerLink]="['/hotels', hotel.id]">
             <app-button size="sm">View Details</app-button>
@@ -58,7 +58,14 @@ import { AmenityIconComponent } from './amenity-icon.component';
   `
 })
 export class HotelCardComponent {
-  @Input() hotel!: Hotel;
+  @Input() hotel!: any;
   @Input() priceFrom?: number;
 
+  getMinPrice(): number {
+    if (this.priceFrom) return this.priceFrom;
+    if (this.hotel.roomCategories && this.hotel.roomCategories.length > 0) {
+      return Math.min(...this.hotel.roomCategories.map((c: any) => c.pricePerNight));
+    }
+    return 2499; // Numeric default
   }
+}

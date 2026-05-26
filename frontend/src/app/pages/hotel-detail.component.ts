@@ -25,7 +25,7 @@ import { forkJoin } from 'rxjs';
         <!-- Hero Gallery -->
         <div class="h-[400px] md:h-[500px] relative">
           <img 
-            [src]="hotel.imageUrl || 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80'" 
+            [src]="hotel.imageUrls?.[0] || 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80'" 
             class="w-full h-full object-cover"
             [alt]="hotel.name"
           />

@@ -157,8 +157,8 @@ export class SuperAdminDashboardComponent implements OnInit {
     this.http.get<ApiResponse<DashboardStats>>(`${environment.apiUrl}/admin/stats`)
       .subscribe(res => this.stats = res.data);
       
-    this.http.get<ApiResponse<Hotel[]>>(`${environment.apiUrl}/hotels`)
-      .subscribe(res => this.hotels = res.data || []);
+    this.http.get<ApiResponse<any>>(`${environment.apiUrl}/hotels`)
+      .subscribe(res => this.hotels = res.data.items || []);
       
     this.http.get<ApiResponse<User[]>>(`${environment.apiUrl}/admin/users`)
       .subscribe(res => this.users = res.data || []);

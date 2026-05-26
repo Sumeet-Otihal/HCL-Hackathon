@@ -12,7 +12,7 @@ import { AmenityIconComponent } from './amenity-icon.component';
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col md:flex-row">
       <div class="md:w-1/3 h-48 md:h-auto">
         <img 
-          [src]="category.imageUrl || 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80'" 
+          [src]="category.imageUrls?.[0] || 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80'" 
           [alt]="category.name"
           class="w-full h-full object-cover"
         />
@@ -22,7 +22,7 @@ import { AmenityIconComponent } from './amenity-icon.component';
         <div>
           <div class="flex justify-between items-start mb-2">
             <h3 class="text-xl font-bold text-navy-900">{{ category.name }}</h3>
-            <p class="text-2xl font-bold text-gold-600">₹{{ category.basePrice | number:'1.2-2' }}<span class="text-sm text-navy-500 font-normal"> / night</span></p>
+            <p class="text-2xl font-bold text-gold-600">₹{{ category.pricePerNight | number:'1.2-2' }}<span class="text-sm text-navy-500 font-normal"> / night</span></p>
           </div>
           
           <p class="text-navy-600 text-sm mb-4 line-clamp-2">{{ category.description }}</p>

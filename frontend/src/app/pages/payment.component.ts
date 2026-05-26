@@ -31,18 +31,18 @@ declare global {
           <div class="bg-navy-900 p-8 text-white text-center">
             
             <h1 class="text-2xl font-bold">Secure Payment</h1>
-            <p class="text-navy-300">Complete your reservation for {{ booking.hotel?.name }}</p>
+            <p class="text-navy-300">Complete your reservation for {{ booking.hotelName }}</p>
           </div>
           
           <div class="p-8 space-y-8">
             <div class="flex justify-between items-center pb-6 border-b border-slate-100">
               <div>
                 <p class="text-sm text-navy-500 uppercase tracking-wider font-semibold">Amount to Pay</p>
-                <p class="text-3xl font-bold text-navy-900">₹{{ booking.totalPrice | number:'1.2-2' }}</p>
+                <p class="text-3xl font-bold text-navy-900">₹{{ booking.finalAmount | number:'1.2-2' }}</p>
               </div>
               <div class="text-right">
-                <p class="text-sm text-navy-500 uppercase tracking-wider font-semibold">Booking ID</p>
-                <p class="text-lg font-mono font-bold text-navy-700">#{{ booking.id.slice(-8).toUpperCase() }}</p>
+                <p class="text-sm text-navy-500 uppercase tracking-wider font-semibold">Reservation #</p>
+                <p class="text-lg font-mono font-bold text-navy-700">{{ booking.reservationNumber }}</p>
               </div>
             </div>
 
@@ -59,8 +59,7 @@ declare global {
               (onClick)="createOrder()"
               [isLoading]="isProcessing"
             >
-              
-              Pay Now ₹{{ booking.totalPrice | number:'1.2-2' }}
+              Pay Now ₹{{ booking.finalAmount | number:'1.2-2' }}
             </app-button>
 
             <div class="flex justify-center items-center space-x-4 grayscale opacity-50">
@@ -76,7 +75,7 @@ declare global {
 })
 export class PaymentPageComponent implements OnInit {
   bookingId: string | null = null;
-  booking: Booking | null = null;
+  booking: any | null = null;
   isLoading = true;
   isProcessing = false;
 
@@ -87,11 +86,6 @@ export class PaymentPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
-
     this.route.paramMap.subscribe(params => {
       this.bookingId = params.get('bookingId');
       if (this.bookingId) {
@@ -101,7 +95,7 @@ export class PaymentPageComponent implements OnInit {
   }
 
   fetchBooking() {
-    this.http.get<ApiResponse<Booking>>(`${environment.apiUrl}/bookings/${this.bookingId}`)
+    this.http.get<ApiResponse<any>>(`${environment.apiUrl}/bookings/${this.bookingId}`)
       .subscribe({
         next: (res) => {
           this.booking = res.data;
@@ -115,58 +109,15 @@ export class PaymentPageComponent implements OnInit {
 
   createOrder() {
     this.isProcessing = true;
-    this.http.post<ApiResponse<any>>(`${environment.apiUrl}/payments/create-order`, { bookingId: this.bookingId })
-      .subscribe({
-        next: (res) => {
-          if (res.success) {
-            const data = res.data;
-            if (data.isMock) {
-              this.verifyPayment({
-                bookingId: this.bookingId!,
-                paymentId: 'mock_payment_' + Date.now(),
-                orderId: data.orderId,
-                signature: 'mock_signature'
-              });
-            } else {
-              const options = {
-                key: data.key,
-                amount: data.amount,
-                currency: data.currency,
-                name: "LuxeStay",
-                description: `Payment for booking ${this.bookingId}`,
-                order_id: data.orderId,
-                handler: (response: any) => {
-                  this.verifyPayment({
-                    bookingId: this.bookingId!,
-                    paymentId: response.razorpay_payment_id,
-                    orderId: response.razorpay_order_id,
-                    signature: response.razorpay_signature
-                  });
-                },
-                prefill: {
-                  name: "Customer Name",
-                  email: "customer@example.com",
-                },
-                theme: {
-                  color: "#0F172A",
-                },
-                modal: {
-                  ondismiss: () => {
-                    this.isProcessing = false;
-                  }
-                }
-              };
-              const rzp = new window.Razorpay(options);
-              rzp.open();
-            }
-          } else {
-            this.isProcessing = false;
-          }
-        },
-        error: () => {
-          this.isProcessing = false;
-        }
+    // Simulate payment processing delay
+    setTimeout(() => {
+      this.verifyPayment({
+        bookingId: Number(this.bookingId),
+        razorpayPaymentId: 'pay_dummy_' + Math.random().toString(36).substring(7),
+        razorpayOrderId: 'order_dummy_' + Math.random().toString(36).substring(7),
+        razorpaySignature: 'dummy_sig'
       });
+    }, 1500);
   }
 
   verifyPayment(payload: any) {
@@ -174,11 +125,12 @@ export class PaymentPageComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.success) {
-            this.router.navigate([`/booking/${this.bookingId}`], { queryParams: { success: 'true' } });
+            this.router.navigate(['/user-dashboard'], { queryParams: { bookingSuccess: 'true' } });
           }
           this.isProcessing = false;
         },
-        error: () => {
+        error: (err) => {
+          console.error('Payment verification failed:', err);
           this.isProcessing = false;
         }
       });

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="space-y-4">
       <div class="flex justify-between text-navy-600">
-        <span>₹{{ basePrice | number:'1.2-2' }} x {{ nights }} nights</span>
+        <span>₹{{ pricePerNight | number:'1.2-2' }} x {{ nights }} nights {{ roomCount > 1 ? ' x ' + roomCount + ' rooms' : '' }}</span>
         <span>₹{{ subtotal | number:'1.2-2' }}</span>
       </div>
       
@@ -29,13 +29,14 @@ import { CommonModule } from '@angular/common';
   `
 })
 export class PriceBreakdownComponent {
-  @Input() basePrice = 0;
+  @Input() pricePerNight = 0;
   @Input() nights = 1;
+  @Input() roomCount = 1;
   @Input() discount = 0;
   @Input() promoCode?: string;
 
   get subtotal(): number {
-    return this.basePrice * this.nights;
+    return this.pricePerNight * this.nights * this.roomCount;
   }
 
   get total(): number {

@@ -7,7 +7,7 @@ export interface User {
   lastName: string;
   role: UserRole;
   loyaltyPoints: number;
-  hotelId?: string; // For HotelAdmin
+  hotelId?: number; // For HotelAdmin
 }
 
 export interface ApiResponse<T> {
@@ -25,7 +25,7 @@ export interface Hotel {
   city: string;
   country: string;
   starRating: number;
-  imageUrl: string;
+  imageUrls: string[];
   amenities: string[];
 }
 
@@ -34,9 +34,9 @@ export interface RoomCategory {
   hotelId: string;
   name: string;
   description: string;
-  basePrice: number;
+  pricePerNight: number;
   maxOccupancy: number;
-  imageUrl: string;
+  imageUrls: string[];
   amenities: string[];
 }
 
@@ -53,14 +53,19 @@ export type BookingStatus = 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
 
 export interface Booking {
   id: string;
-  userId: string;
-  hotelId: string;
-  roomId: string;
+  reservationNumber: string;
+  hotelName: string;
+  roomNumber: string;
+  roomCategory: string;
   checkInDate: string;
   checkOutDate: string;
-  totalPrice: number;
+  totalNights: number;
+  totalAmount: number;
+  discountAmount: number;
+  finalAmount: number;
   status: BookingStatus;
-  loyaltyPointsEarned: number;
+  paymentStatus: string;
+  createdAt: string;
   user?: User;
   hotel?: Hotel;
   room?: Room;

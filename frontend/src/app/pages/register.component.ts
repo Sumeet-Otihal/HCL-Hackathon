@@ -124,17 +124,23 @@ export class RegisterPageComponent {
     this.isSubmitting = true;
     this.error = null;
 
-    const { confirmPassword, ...data } = this.registerForm.value;
-
-    this.authService.register(data).subscribe({
+    this.authService.register(this.registerForm.value).subscribe({
       next: (res) => {
         if (res.success) {
           this.router.navigate(['/login'], { queryParams: { registered: 'true' } });
+        } else {
+          this.error = res.message || 'Registration failed.';
         }
         this.isSubmitting = false;
       },
       error: (err) => {
-        this.error = err.error?.message || 'Registration failed. Please try again.';
+        console.error('Registration error:', err);
+        const apiRes = err.error;
+        if (apiRes && apiRes.errors && apiRes.errors.length > 0) {
+          this.error = apiRes.errors.join(', ');
+        } else {
+          this.error = apiRes?.message || err.message || 'Registration failed. Please try again.';
+        }
         this.isSubmitting = false;
       }
     });

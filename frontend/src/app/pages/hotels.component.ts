@@ -187,10 +187,10 @@ export class HotelsPageComponent implements OnInit {
       if (!params[key]) delete params[key];
     });
 
-    this.http.get<ApiResponse<Hotel[]>>(`${environment.apiUrl}/hotels/search`, { params })
+    this.http.get<ApiResponse<any>>(`${environment.apiUrl}/hotels/search`, { params })
       .subscribe({
         next: (res) => {
-          this.hotels = res.data;
+          this.hotels = res.data.items;
           this.isLoading = false;
         },
         error: () => {

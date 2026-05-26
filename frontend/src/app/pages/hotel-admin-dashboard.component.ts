@@ -50,15 +50,56 @@ import { BadgeComponent } from '../components/ui/badge.component';
               <tr *ngFor="let cat of categories" class="hover:bg-slate-50 transition-colors">
                 <td class="px-6 py-4">
                   <div class="flex items-center">
-                    <img [src]="cat.imageUrl" class="h-10 w-10 rounded object-cover mr-3" />
+                    <img [src]="cat.imageUrls?.[0]" class="h-10 w-10 rounded object-cover mr-3" />
                     <span class="font-medium text-navy-900">{{ cat.name }}</span>
                   </div>
                 </td>
-                <td class="px-6 py-4 text-navy-600 font-medium">₹{{ cat.basePrice | number:'1.2-2' }}</td>
+                <td class="px-6 py-4 text-navy-600 font-medium">₹{{ cat.pricePerNight | number:'1.2-2' }}</td>
                 <td class="px-6 py-4 text-navy-600">{{ cat.maxOccupancy }} Guests</td>
                 <td class="px-6 py-4 text-right space-x-3">
                   <button class="text-navy-400 hover:text-navy-900"></button>
                   <button class="text-navy-400 hover:text-red-500"></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+
+        <ng-container *ngIf="activeTab === 'rooms'">
+          <div class="p-6 bg-slate-50 border-b border-slate-100 flex flex-wrap gap-4 items-end">
+            <div class="space-y-1">
+              <label class="text-xs font-bold text-navy-500 uppercase">Check-in</label>
+              <input type="date" [(ngModel)]="filterCheckIn" (change)="fetchRooms()" class="block w-full rounded-md border-slate-200 text-sm focus:ring-gold-500 focus:border-gold-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-xs font-bold text-navy-500 uppercase">Check-out</label>
+              <input type="date" [(ngModel)]="filterCheckOut" (change)="fetchRooms()" class="block w-full rounded-md border-slate-200 text-sm focus:ring-gold-500 focus:border-gold-500" />
+            </div>
+            <app-button variant="outline" size="sm" (onClick)="resetRoomFilters()">Reset</app-button>
+          </div>
+
+          <table class="w-full text-left">
+            <thead class="bg-slate-50 border-b border-slate-100">
+              <tr>
+                <th class="px-6 py-4 text-sm font-bold text-navy-900 uppercase tracking-wider">Room #</th>
+                <th class="px-6 py-4 text-sm font-bold text-navy-900 uppercase tracking-wider">Category</th>
+                <th class="px-6 py-4 text-sm font-bold text-navy-900 uppercase tracking-wider">Floor</th>
+                <th class="px-6 py-4 text-sm font-bold text-navy-900 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-4 text-sm font-bold text-navy-900 uppercase tracking-wider text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+              <tr *ngFor="let room of rooms" class="hover:bg-slate-50 transition-colors">
+                <td class="px-6 py-4 font-bold text-navy-900">{{ room.roomNumber }}</td>
+                <td class="px-6 py-4 text-navy-600">{{ room.categoryName }}</td>
+                <td class="px-6 py-4 text-navy-600">{{ room.floorNumber }}</td>
+                <td class="px-6 py-4">
+                  <app-badge [variant]="room.isAvailable ? 'success' : 'error'">
+                    {{ room.isAvailable ? 'Available' : 'Booked / Unavailable' }}
+                  </app-badge>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <button class="text-navy-400 hover:text-navy-900"></button>
                 </td>
               </tr>
             </tbody>
@@ -112,8 +153,12 @@ import { BadgeComponent } from '../components/ui/badge.component';
 export class HotelAdminDashboardComponent implements OnInit {
   activeTab = 'categories';
   categories: RoomCategory[] = [];
+  rooms: any[] = [];
   bookings: Booking[] = [];
-  hotelId: string | undefined;
+  hotelId: number | undefined;
+
+  filterCheckIn: string = '';
+  filterCheckOut: string = '';
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.hotelId = this.authService.user()?.hotelId;
@@ -121,20 +166,40 @@ export class HotelAdminDashboardComponent implements OnInit {
 
   ngOnInit() {
     if (this.hotelId) {
-      this.fetchData();
+      this.fetchCategories();
+      this.fetchRooms();
+      this.fetchBookings();
     }
   }
 
-  fetchData() {
+  fetchCategories() {
     this.http.get<ApiResponse<RoomCategory[]>>(`${environment.apiUrl}/rooms/hotel/${this.hotelId}/categories`)
       .subscribe(res => this.categories = res.data || []);
-      
+  }
+
+  fetchRooms() {
+    let url = `${environment.apiUrl}/rooms/hotel/${this.hotelId}`;
+    const params: any = {};
+    if (this.filterCheckIn) params.checkIn = this.filterCheckIn;
+    if (this.filterCheckOut) params.checkOut = this.filterCheckOut;
+
+    this.http.get<ApiResponse<any[]>>(url, { params })
+      .subscribe(res => this.rooms = res.data || []);
+  }
+
+  fetchBookings() {
     this.http.get<ApiResponse<Booking[]>>(`${environment.apiUrl}/bookings/hotel/${this.hotelId}`)
       .subscribe(res => this.bookings = res.data || []);
   }
 
+  resetRoomFilters() {
+    this.filterCheckIn = '';
+    this.filterCheckOut = '';
+    this.fetchRooms();
+  }
+
   updateBookingStatus(id: string, status: string) {
-    this.http.patch<ApiResponse<any>>(`${environment.apiUrl}/bookings/${id}/status`, { status })
+    this.http.put<ApiResponse<any>>(`${environment.apiUrl}/bookings/${id}/status?status=${status}`, {})
       .subscribe(res => {
         if (res.success) {
           const booking = this.bookings.find(b => b.id === id);
